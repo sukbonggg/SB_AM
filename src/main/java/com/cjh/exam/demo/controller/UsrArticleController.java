@@ -12,9 +12,11 @@ import com.cjh.exam.demo.vo.Article;
 @Controller
 public class UsrArticleController {
 	
+	// 인스턴스 변수
 	private int lastArticleId;
 	private List<Article> articles;
 	
+	// 생성자
 	public UsrArticleController() {
 		this.lastArticleId = 0;
 		this.articles = new ArrayList<>();
@@ -108,6 +110,19 @@ public class UsrArticleController {
 		}
 		
 		modifyArticle(id, title, body);
+		
+		return article;
+	}
+	
+	@RequestMapping("/usr/article/getArticle")
+	@ResponseBody
+	public Object getArticleAction(int id) {
+		
+		Article article = getArticle(id);
+		
+		if(article == null) {
+			return id + "번 게시물은 존재하지 않습니다";
+		}
 		
 		return article;
 	}
