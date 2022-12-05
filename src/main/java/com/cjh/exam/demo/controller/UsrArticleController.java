@@ -24,7 +24,11 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
 	public Article doAdd(String title, String body) {
-		return articleService.writeArticle(title, body);
+		int id = articleService.writeArticle(title, body);
+		
+		Article article = articleService.getArticle(id);
+		
+		return article;
 	}
 
 	@RequestMapping("/usr/article/getArticles")
@@ -66,7 +70,7 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/getArticle")
 	@ResponseBody
-	public Object getArticleAction(int id) {
+	public Object getArticle(int id) {
 
 		Article article = articleService.getArticle(id);
 
