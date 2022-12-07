@@ -27,7 +27,7 @@ CREATE TABLE `member`(
 	delStatus TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '탈퇴여부 (0 = 탈퇴 전, 1 = 탈퇴 후)',
 	delDate DATETIME COMMENT '탈퇴 날짜'
 );
-
+ 
 # article 데이터 추가
 INSERT INTO article
 SET regDate = NOW(),
