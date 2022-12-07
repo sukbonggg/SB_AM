@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.cjh.exam.demo.vo.Article;
+import com.cjh.exam.demo.vo.ResultData;
 
 @Mapper
 public interface ArticleRepository {
