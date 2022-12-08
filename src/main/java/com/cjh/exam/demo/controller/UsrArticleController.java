@@ -25,63 +25,62 @@ public class UsrArticleController {
 	// 액션메서드
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
-	public ResultData doAdd(String title, String body) {
+	public ResultData<Article> doAdd(String title, String body) {
 		if(Utility.empty(title)) {
 			return ResultData.from("F-1", "제목을 입력해주세요");
 		}
 		if(Utility.empty(body)) {
 			return ResultData.from("F-2", "내용을 입력해주세요");
 		}
-		ResultData writeArticleRd = articleService.writeArticle(title, body);
 		
-			
-		Article article = articleService.getArticle((int)writeArticleRd.getData1());
+		ResultData<Integer> writeArticleRd = articleService.writeArticle(title, body);
 		
-		return ResultData.from(writeArticleRd.getResultCode(), writeArticleRd.getMsg(),article);
+		Article article = articleService.getArticle((int) writeArticleRd.getData1());
+		
+		return ResultData.from(writeArticleRd.getResultCode(), writeArticleRd.getMsg(), article);
 	}
 
 	@RequestMapping("/usr/article/getArticles")
 	@ResponseBody
-	public ResultData getArticles() {
-		
-		List<Article> articles=articleService.getArticles();
+	public ResultData<List<Article>> getArticles() {
 
+		List<Article> articles = articleService.getArticles();
 		return ResultData.from("S-1", "게시물 리스트", articles);
 	}
 
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public String doDelete(int id) {
+	public ResultData<Integer> doDelete(int id) {
 
 		Article article = articleService.getArticle(id);
 
 		if (article == null) {
-			return id + "번 게시물은 존재하지 않습니다";
+			return ResultData.from("F-1", Utility.f("%d번게시물은 존재하지 않습니다", id));
 		}
 
 		articleService.deleteArticle(id);
 
-		return id + "번 게시물을 삭제했습니다";
+		return ResultData.from("S-1", Utility.f("%d번게시물을 삭제했습니다", id),id);
 	}
 
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public Object doModify(int id, String title, String body) {
+	public ResultData<Integer> doModify(int id, String title, String body) {
 
 		Article article = articleService.getArticle(id);
 
 		if (article == null) {
-			return id + "번 게시물은 존재하지 않습니다";
+			return ResultData.from("F-1", Utility.f("%d번게시물은 존재하지 않습니다", id));
 		}
 
 		articleService.modifyArticle(id, title, body);
 
-		return article;
+		return ResultData.from("S-1", Utility.f("%d번게시물을 수정 했습니다", id),id);
 	}
 
 	@RequestMapping("/usr/article/getArticle")
 	@ResponseBody
-	public ResultData getArticle(int id) {
+	public ResultData<Article> getArticle(int id) {
 
 		Article article = articleService.getArticle(id);
 
@@ -93,3 +92,4 @@ public class UsrArticleController {
 	}
 
 }
+
