@@ -5,12 +5,11 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.cjh.exam.demo.vo.Article;
-import com.cjh.exam.demo.vo.ResultData;
 
 @Mapper
 public interface ArticleRepository {
 
-	public void writeArticle(String title, String body);
+	public void writeArticle(int memberId, String title, String body);
 
 	public Article getArticle(int id);
 
