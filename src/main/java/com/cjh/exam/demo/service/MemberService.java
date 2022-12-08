@@ -18,7 +18,7 @@ public class MemberService {
 		this.memberRepository = memberRepository;
 	}
 
-	public ResultData doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum,
+	public ResultData<Integer> doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum,
 			String email) {
 		
 		// 로그인아이디 중복체크
@@ -36,7 +36,7 @@ public class MemberService {
 		}
 		
 		memberRepository.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
-		ResultData id =memberRepository.getLastInsertId();
+		int id =memberRepository.getLastInsertId();
 		return ResultData.from("S-1", "회원가입이 완료되었습니다", id);
 	}
 
