@@ -44,12 +44,19 @@ public class MemberService {
 		return memberRepository.getMemberById(id);
 	}
 	
-	private Member getMemberByLoginId(String loginId) {
+	public Member getMemberByLoginId(String loginId) {
 		return memberRepository.getMemberByLoginId(loginId);
 	}
 	
 	private Member getMemberByNameAndEmail(String name, String email) {
 		return memberRepository.getMemberByNameAndEmail(name, email);
+	}
+
+	
+
+	public ResultData<Integer> dologin(String loginId, String loginPw) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
