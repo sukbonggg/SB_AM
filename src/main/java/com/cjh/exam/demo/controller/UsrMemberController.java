@@ -53,7 +53,7 @@ public class UsrMemberController {
 		
 		Member member = memberService.getMemberById((int) doJoinRd.getData1());
 		
-		return ResultData.from(doJoinRd.getResultCode(), doJoinRd.getMsg(), member);
+		return ResultData.from(doJoinRd.getResultCode(), doJoinRd.getMsg(), "member", member);
 	}
 	
 	@RequestMapping("/usr/member/doLogin")
@@ -98,4 +98,4 @@ public class UsrMemberController {
 		return ResultData.from("S-1", "로그아웃 되었습니다");
 	}
 
-}
+}                    

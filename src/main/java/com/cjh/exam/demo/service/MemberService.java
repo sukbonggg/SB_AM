@@ -25,19 +25,19 @@ public class MemberService {
 		Member existsMember = getMemberByLoginId(loginId);
 		
 		if(existsMember != null) {
-			return ResultData.from("F-7", Utility.f("아이디(%s)가 이미 존재합니다", loginId));
+			return ResultData.from("F-7", Utility.f("이미 사용중인 아이디(%s)입니다", loginId));
 		}
 		
 		// 이름 + 이메일 중복체크
 		existsMember = getMemberByNameAndEmail(name, email);
 		
 		if(existsMember != null) {
-			return ResultData.from("F-8", Utility.f("이름(%s)과 이메일(%s)가 이미 존재합니다", name,email));
+			return ResultData.from("F-8", Utility.f("이미 사용중인 이름(%s)과 이메일(%s)입니다", name, email));
 		}
 		
 		memberRepository.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
-		int id =memberRepository.getLastInsertId();
-		return ResultData.from("S-1", "회원가입이 완료되었습니다", id);
+		int id = memberRepository.getLastInsertId();
+		return ResultData.from("S-1", "회원가입이 완료되었습니다", "id", id);
 	}
 
 	public Member getMemberById(int id) {
@@ -51,12 +51,6 @@ public class MemberService {
 	private Member getMemberByNameAndEmail(String name, String email) {
 		return memberRepository.getMemberByNameAndEmail(name, email);
 	}
-
-	
-
-	public ResultData<Integer> dologin(String loginId, String loginPw) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 }
+
+	
