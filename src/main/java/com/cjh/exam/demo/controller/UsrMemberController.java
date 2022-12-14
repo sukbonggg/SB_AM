@@ -1,5 +1,7 @@
 package com.cjh.exam.demo.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,8 +11,6 @@ import com.cjh.exam.demo.service.MemberService;
 import com.cjh.exam.demo.util.Utility;
 import com.cjh.exam.demo.vo.Member;
 import com.cjh.exam.demo.vo.ResultData;
-
-import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class UsrMemberController {
@@ -98,4 +98,4 @@ public class UsrMemberController {
 		return ResultData.from("S-1", "로그아웃 되었습니다");
 	}
 
-}                    
+}    
