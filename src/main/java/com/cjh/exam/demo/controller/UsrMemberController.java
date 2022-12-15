@@ -56,6 +56,11 @@ public class UsrMemberController {
 		return ResultData.from(doJoinRd.getResultCode(), doJoinRd.getMsg(), "member", member);
 	}
 	
+	@RequestMapping("/usr/member/login")
+	public String showLogin() {
+		return "usr/member/login";
+	}
+	
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
 	public ResultData doLogin(HttpSession httpSession, String loginId, String loginPw) {
@@ -98,4 +103,4 @@ public class UsrMemberController {
 		return ResultData.from("S-1", "로그아웃 되었습니다");
 	}
 
-}    
+}

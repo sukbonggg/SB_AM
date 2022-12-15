@@ -19,27 +19,22 @@ public class Rq {
 	public Rq(HttpServletRequest req, HttpServletResponse resp) {
 		this.req = req;
 		this.resp = resp;
+		
 		HttpSession httpSession = req.getSession();
-
+		
 		int loginedMemberId = 0;
-
-		if (httpSession.getAttribute("loginedMemberId") != null) {
+		
+		if(httpSession.getAttribute("loginedMemberId") != null) {
 			loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
 		}
-
+		
 		this.loginedMemberId = loginedMemberId;
 	}
 
-	public void jsPrintHistoryBack(String msg) {
-		resp.setContentType("text/html; charset=UTF-8;");
-
-		println("<script>");
+	public void jsPrintHistoryBack(String msg) throws IOException{
+		resp.setContentType("text/html; charset=UTF-8");
 		
-		if(Utility.empty(msg)) {
-			println("alert('"+ msg +"');");
-		}
-		println("history.back();");
-		println("<script>");
+		print(Utility.jsHistoryBack(msg));
 	}
 
 	private void print(String str) {
@@ -49,9 +44,5 @@ public class Rq {
 			e.printStackTrace();
 		}
 	}
-
-	private void println(String str) {
-		print(str + "\n");
-	}
-
+	
 }
