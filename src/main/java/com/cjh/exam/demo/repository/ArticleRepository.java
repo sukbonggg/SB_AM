@@ -13,7 +13,7 @@ public interface ArticleRepository {
 
 	public Article getArticle(int id);
 
-	public List<Article> getArticles();
+	public List<Article> getArticles(int boardId);
 	
 	public void deleteArticle(int id);
 
@@ -22,4 +22,6 @@ public interface ArticleRepository {
 	public int getLastInsertId();
 
 	public Article getForPrintArticle(int id);
+
+	public int getArticlesCount(int boardId);
 }

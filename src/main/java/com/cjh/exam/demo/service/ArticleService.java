@@ -28,16 +28,12 @@ public class ArticleService {
 		articleRepository.deleteArticle(id);
 	}
 
-	public ResultData<Article> modifyArticle(int id, String title, String body) {
+	public void modifyArticle(int id, String title, String body) {
 		articleRepository.modifyArticle(id, title, body);
-		
-		Article article = getArticle(id);
-		
-		return ResultData.from("S-1", Utility.f("%d번 게시물을 수정했습니다", id), "article", article);
 	}
 
-	public List<Article> getArticles() {
-		return articleRepository.getArticles();
+	public List<Article> getArticles(int boardId) {
+		return articleRepository.getArticles(boardId);
 	}
 
 	public ResultData<Integer> writeArticle(int memberId, String title, String body) {
@@ -98,5 +94,9 @@ public class ArticleService {
 		ResultData actorCanChangeDataRd = actorCanMD(loginedMemberId, article);
 		article.setActorCanChangeData(actorCanChangeDataRd.isSuccess());
 		
+	}
+
+	public int getArticlesCount(int boardId) {
+		return articleRepository. getArticlesCount( boardId);
 	}
 }
