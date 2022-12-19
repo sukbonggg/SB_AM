@@ -42,7 +42,7 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public String doWrite( String title, String body) {
+	public String doWrite( String title, String body,int boardId) {
 
 		
 
@@ -53,7 +53,7 @@ public class UsrArticleController {
 			return Utility.jsHistoryBack("내용을 입력해주세요");
 		}
 
-		ResultData<Integer> writeArticleRd = articleService.writeArticle(rq.getLoginedMemberId(), title, body);
+		ResultData<Integer> writeArticleRd = articleService.writeArticle(rq.getLoginedMemberId(),boardId, title, body);
 
 		int id = (int) writeArticleRd.getData1();
 		
@@ -64,8 +64,6 @@ public class UsrArticleController {
 	public String showList(Model model, int boardId) {
 		
 		Board board = boardService.getBoardById(boardId);
-		
-		
 		
 		if(board==null) {
 			return rq.jsReturnOnView("존재하지 않는 게시판입니다", true);
