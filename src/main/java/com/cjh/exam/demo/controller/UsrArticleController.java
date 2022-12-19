@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cjh.exam.demo.service.ArticleService;
@@ -42,10 +43,13 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public String doWrite( String title, String body,int boardId) {
+	public String doWrite( String title, String body,Integer boardId) {
 
 		
-
+		if(boardId==null) {
+			return Utility.jsHistoryBack("게시판을 고르세요");
+		}
+		
 		if (Utility.empty(title)) {
 			return Utility.jsHistoryBack("제목을 입력해주세요");
 		}
@@ -61,7 +65,11 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model, int boardId) {
+	public String showList(Model model,@RequestParam(defaultValue="1") int boardId,@RequestParam(defaultValue="1")int page) {
+		
+		if(page<=0) {
+			return rq.jsReturnOnView("페이지번호가 올바르지 않습니다", true);
+		}
 		
 		Board board = boardService.getBoardById(boardId);
 		
@@ -70,7 +78,10 @@ public class UsrArticleController {
 		}
 		
 		int articlesCount = articleService.getArticlesCount(boardId);
-		List<Article> articles = articleService.getArticles(boardId);
+		
+		int itemsInAPage=10;
+		
+		List<Article> articles = articleService.getArticles(boardId,itemsInAPage,page);
 
 		model.addAttribute("board", board);
 		model.addAttribute("articles", articles);
@@ -82,8 +93,6 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
 	public String doDelete( int id) {
-
-
 
 		Article article = articleService.getArticle(id);
 
@@ -100,8 +109,6 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/modify")
 	public String showModify( Model model, int id) {
-
-	
 		
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 
@@ -119,8 +126,6 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
 	public String doModify( int id, String title, String body) {
-
-	
 		
 		Article article = articleService.getArticle(id);
 
@@ -137,8 +142,6 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/detail")
 	public String ShowDetail( Model model, int id) {
-
-	
 		
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 

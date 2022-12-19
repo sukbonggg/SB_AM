@@ -4,37 +4,47 @@
 <%@ include file="../common/head.jsp"%>
 
 <section class="mt-8 text-xl">
-	<div class="container mx-auto px-3">
-	<div class="mb-2 flex justify-between items-center">
-		<c:if test="${rq.getLoginedMemberId() != 0 }">
-				<a class="btn-text-link btn btn-active btn-ghost" href="/usr/article/write">WRITE</a>
+		<div class="container mx-auto px-3">
+				<div class="mb-2 flex justify-between items-center">
+						<c:if test="${rq.getLoginedMemberId() != 0 }">
+								<a class="btn-text-link btn btn-active btn-ghost" href="/usr/article/write">WRITE</a>
 						</c:if>
-						<div><span>${articlesCount}개</span></div>
-			</div>
+						<div>
+								<span>${articlesCount}개</span>
+						</div>
+				</div>
 
-		<div class="table-box-type-1">
-			<table class="table w-full">
-				<thead>
-					<tr>
-						<th>번호</th>
-						<th>날짜</th>
-						<th>제목</th>
-						<th>작성자</th>
-					</tr>
-				</thead>
+				<div class="table-box-type-1">
+						<table class="table w-full">
+								<thead>
+										<tr>
+												<th>번호</th>
+												<th>날짜</th>
+												<th>제목</th>
+												<th>작성자</th>
+										</tr>
+								</thead>
 
-				<tbody>
-					<c:forEach var="article" items="${articles}">
-						<tr class="hover">
-							<td>${article.id}</td>
-							<td>${article.regDate.substring(2,16)}</td>
-							<td><a class="hover:underline" href="detail?id=${article.id}">${article.title}</a></td>
-							<td>${article.writerName}</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
+								<tbody>
+										<c:forEach var="article" items="${articles}">
+												<tr class="hover">
+														<td>${article.id}</td>
+														<td>${article.regDate.substring(2,16)}</td>
+														<td><a class="hover:underline" href="detail?id=${article.id}">${article.title}</a></td>
+														<td>${article.writerName}</td>
+												</tr>
+										</c:forEach>
+								</tbody>
+						</table>
+				</div>
+				<div calss="page-menu mt-2 flex justify-center">
+						<div class="btn-group">
+								<c:forEach begin="1" end="${pagesCount }" var="i">
+									<a class= "btn btn-sm ${param.page==i ? 'btn-active': '' }" href="?page=${i}">${i }</a>
+								</c:forEach>
+								
+						</div>
+				</div>
 		</div>
-	</div>
 </section>
 <%@ include file="../common/foot.jsp"%>
