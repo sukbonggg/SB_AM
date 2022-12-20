@@ -79,13 +79,18 @@ public class UsrArticleController {
 		
 		int articlesCount = articleService.getArticlesCount(boardId);
 		
-		int itemsInAPage=10;
+		int itemsInAPage=5;
+		
+		int pagesCount =(int)Math.ceil((double)articlesCount /itemsInAPage);
 		
 		List<Article> articles = articleService.getArticles(boardId,itemsInAPage,page);
 
 		model.addAttribute("board", board);
 		model.addAttribute("articles", articles);
 		model.addAttribute("articlesCount",articlesCount );
+		model.addAttribute("boardId",boardId );
+		model.addAttribute("page",page );
+		model.addAttribute("pagesCount",pagesCount );
 
 		return "usr/article/list";
 	}

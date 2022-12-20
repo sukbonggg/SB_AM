@@ -4,38 +4,41 @@
 <%@ include file="../common/head.jsp"%>
 
 <section class="mt-8 text-xl">
-	<div class="container mx-auto px-3">
-		<form action="doWrite" method="POST">
-			<div class="table-box-type-1">
-				<table class="table table-zebra w-full">
-					<colgroup>
-						<col width="200" />
-					</colgroup>
-			<form action="write.jsp">
-			게시판 선택<br>
-			<input type="radio" name='board' value='notice' checked/>공지사항
-			<input type="radio" name='board' value='free' checked />자유게시판
-			</form> 
-			</select>
-					<tbody>
-						<tr>
-							<th>제목</th>
-							<td><input class="input input-bordered w-full max-w-xs" type="text" name="title" placeholder="제목을 입력해주세요" /></td>
-						</tr>
-						<tr>
-							<th>내용</th>
-							<td><textarea class="textarea textarea-bordered w-full" name="body" placeholder="내용을 입력해주세요"></textarea></td>
-						</tr>
-						<tr>
-							<td colspan="2"><button class="btn btn-active btn-ghost">작성</button></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</form>
-		<div class="btns mt-2">
-			<button class="btn-text-link btn btn-active btn-ghost" type="button" onclick="history.back();">뒤로가기</button>
+		<div class="container mx-auto px-3">
+				<form action="doWrite" method="POST">
+						<div class="table-box-type-1">
+								<table class="table table-zebra w-full">
+										<colgroup>
+												<col width="200" />
+										</colgroup>
+
+
+										<tr>
+												<th>게시판</th>
+												<td><label> <input type="radio" name="boardId" value="1" checked />&nbsp;공지사항
+												</label></td>
+												<td><label> <input type="radio" name="boardId" value="2" />&nbsp;자유
+												</label></td>
+										</tr>
+										<tr>
+												<th>제목</th>
+												<td><input class="input input-bordered w-full max-w-xs" type="text" name="title"
+														placeholder="제목을 입력해주세요" /></td>
+										</tr>
+										<tr>
+												<th>내용</th>
+												<td><textarea class="textarea textarea-bordered w-full" name="body" placeholder="내용을 입력해주세요"></textarea></td>
+										</tr>
+										<tr>
+												<td colspan="2"><button class="btn btn-active btn-ghost">작성</button></td>
+										</tr>
+										</tbody>
+								</table>
+						</div>
+				</form>
+				<div class="btns mt-2">
+						<button class="btn-text-link btn btn-active btn-ghost" type="button" onclick="history.back();">뒤로가기</button>
+				</div>
 		</div>
-	</div>
 </section>
 <%@ include file="../common/foot.jsp"%>

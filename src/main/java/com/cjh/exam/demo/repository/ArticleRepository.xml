@@ -49,6 +49,9 @@
 			AND A.boardId = #{boardId}
 		</if>
 		ORDER BY A.id DESC
+		<if test="itemsInAPage != 0">
+			LIMIT #{limitStart},#{itemsInAPage}
+		</if>
 	</select>
 
 	<delete id="deleteArticle">

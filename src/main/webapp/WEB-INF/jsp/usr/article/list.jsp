@@ -4,44 +4,68 @@
 <%@ include file="../common/head.jsp"%>
 
 <section class="mt-8 text-xl">
-		<div class="container mx-auto px-3">
-				<div class="mb-2 flex justify-between items-center">
-						<c:if test="${rq.getLoginedMemberId() != 0 }">
-								<a class="btn-text-link btn btn-active btn-ghost" href="/usr/article/write">WRITE</a>
-						</c:if>
-						<div>
-								<span>${articlesCount}개</span>
-						</div>
-				</div>
+	<div class="container mx-auto px-3">
+		<div class="mb-2 flex justify-between items-center">
+			<div>
+				<span>${articlesCount } 개</span>
+			</div>
+			<c:if test="${rq.getLoginedMemberId() != 0 }">
+				<a class="btn-text-link btn btn-active btn-ghost" href="/usr/article/write">WRITE</a>
+			</c:if>
+		</div>
+		<div class="table-box-type-1">
+			<table class="table w-full">
+				<thead>
+					<tr>
+						<th>번호</th>
+						<th>날짜</th>
+						<th>제목</th>
+						<th>작성자</th>
+					</tr>
+				</thead>
 
-				<div class="table-box-type-1">
-						<table class="table w-full">
-								<thead>
-										<tr>
-												<th>번호</th>
-												<th>날짜</th>
-												<th>제목</th>
-												<th>작성자</th>
-										</tr>
-								</thead>
-
-								<tbody>
-										<c:forEach var="article" items="${articles}">
-												<tr class="hover">
-														<td>${article.id}</td>
-														<td>${article.regDate.substring(2,16)}</td>
-														<td><a class="hover:underline" href="detail?id=${article.id}">${article.title}</a></td>
-														<td>${article.writerName}</td>
-												</tr>
-										</c:forEach>
-								</tbody>
-						</table>
-				</div>
-				<div calss="page-menu mt-2 flex justify-center">
-						<div class="btn-group">
-								<c:forEach begin="1" end="${pagesCount }" var="i">
-									<a class= "btn btn-sm ${param.page==i ? 'btn-active': '' }" href="?page=${i}">${i }</a>
-								</c:forEach>
+				<tbody>
+					<c:forEach var="article" items="${articles}">
+						<tr class="hover">
+							<td>${article.id}</td>
+							<td>${article.regDate.substring(2,16)}</td>
+							<td><a class="hover:underline" href="detail?id=${article.id}">${article.title}</a></td>
+							<td>${article.writerName}</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+		<div class="page-menu mt-2 flex justify-center">
+			<div class="btn-group">
+				<c:set var="pageMenuLen" value="5" />
+				<c:set var="startPage" value="${page - pageMenuLen >= 1 ? page - pageMenuLen : 1}" />
+				<c:set var="endPage" value="${page + pageMenuLen <= pagesCount ? page + pageMenuLen : pagesCount}" />
+				
+				<c:if test="${page == 1 }">
+					<a class="btn btn-sm btn-disabled">«</a>
+					<a class="btn btn-sm btn-disabled">&lt;</a>
+				</c:if>
+				<c:if test="${page > 1 }">
+					<a class="btn btn-sm" href="?boardId=${boardId }&page=1">«</a>
+					<a class="btn btn-sm" href="?boardId=${boardId }&page=${page - 1 }">&lt;</a>
+				</c:if>
+				<c:forEach begin="${startPage }" end="${endPage }" var="i">
+					<a class="btn btn-sm ${page == i ? 'btn-active' : ''}" href="?boardId=${boardId }&page=${i }">${i }</a>
+				</c:forEach>
+				<c:if test="${page < pagesCount }">
+					<a class="btn btn-sm" href="?boardId=${boardId }&page=${page + 1 }">&gt;</a>
+					<a class="btn btn-sm" href="?boardId=${boardId }&page=${pagesCount }">»</a>
+				</c:if>
+				<c:if test="${page == pagesCount }">
+					<a class="btn btn-sm btn-disabled">&gt;</a>
+					<a class="btn btn-sm btn-disabled">»</a>
+				</c:if>
+			</div>
+		</div>
+	</div>
+</section>
+<%@ include file="../common/foot.jsp"%>
 								
 						</div>
 				</div>
