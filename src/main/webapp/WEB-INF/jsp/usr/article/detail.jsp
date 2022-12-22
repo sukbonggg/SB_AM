@@ -3,6 +3,34 @@
 <c:set var="pageTitle" value="ARTICLE DETAIL" />
 <%@ include file="../common/head.jsp"%>
 
+<script>
+	const params = {};
+	params.id = parseInt('${param.id}');
+	
+	function ArticleDetail__increaseHitCount() {
+		$.get('doIncreaseHitCountRd', {
+			id : params.id,
+			ajaxMode : 'Y'
+		}, function(data){
+			$('.article-detail__hit-count').empty().html(data.data1);
+		}, 'json');
+		if(localStorage.getItem('doIncreaseHitCountRd')==undefined){
+			localStorage.setItem('doIncreaseHitCountRd','doIncreaseHitCountRd');
+		}
+	
+	}
+	
+	$(function(){
+// 		실전코드
+// 		ArticleDetail__increaseHitCount();
+		
+// 		연습코드
+		setTimeout(ArticleDetail__increaseHitCount, 2000);
+	})
+	
+
+</script>
+
 <section class="mt-8 text-xl">
 	<div class="container mx-auto px-3">
 		<div class="table-box-type-1">
@@ -14,7 +42,7 @@
 				<tbody>
 					<tr>
 						<th>번호</th>
-						<td>${article.id}</td>
+						<td><div class="badge">${article.id}</div></td>
 					</tr>
 					<tr>
 						<th>작성날짜</th>
@@ -23,6 +51,10 @@
 					<tr>
 						<th>수정날짜</th>
 						<td>${article.updateDate}</td>
+					</tr>
+					<tr>
+						<th>조회수</th>
+						<td><span class="badge article-detail__hit-count">${article.hitCount}</span></td>
 					</tr>
 					<tr>
 						<th>작성자</th>
@@ -39,13 +71,13 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="btns">
-			<button class="btn-text-link" type="button" onclick="history.back();">뒤로가기</button>
+		<div class="btns mt-2">
+			<button class="btn-text-link btn btn-active btn-ghost" type="button" onclick="history.back();">뒤로가기</button>
 			<c:if test="${article.actorCanChangeData }">
-				<a class="btn-text-link" href="modify?id=${article.id }">수정</a>
-				<a class="btn-text-link" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;" href="doDelete?id=${article.id }">삭제</a>
+				<a class="btn-text-link btn btn-active btn-ghost" href="modify?id=${article.id }">수정</a>
+				<a class="btn-text-link btn btn-active btn-ghost" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;" href="doDelete?id=${article.id }">삭제</a>
 			</c:if>
 		</div>
 	</div>
 </section>
-<%@ include file="../common/foot.jsp"%>nclude file="../common/foot.jsp"%>
+<%@ include file="../common/foot.jsp"%>

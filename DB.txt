@@ -131,6 +131,8 @@ SELECT LAST_INSERT_ID();
 --  )
 --  select now(), now(), Floor(RAND() * 3) + 1, FLOOR(RAND() * 2) + 1, CONCAt('제목_',RAND()), CONCAT('내용_',RAND())
 -- from article
+#article 테이블에 viewCount컬럼 추가
+ALTER TABLE article ADD COLUMN viewCount INT DEFAULT 0 NOT NULL ;
 
  SELECT COUNT(*)
  FROM article
