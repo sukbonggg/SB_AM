@@ -8,27 +8,50 @@
 	params.id = parseInt('${param.id}');
 	
 	function ArticleDetail__increaseHitCount() {
+		
+		const localStorageKey = 'article__' + params.id + '__alreadyView';
+		
+		if (localStorage.getItem(localStorageKey)) {
+			return;
+		}
+		localStorage.setItem(localStorageKey, true);
+		
 		$.get('doIncreaseHitCountRd', {
 			id : params.id,
 			ajaxMode : 'Y'
 		}, function(data){
 			$('.article-detail__hit-count').empty().html(data.data1);
 		}, 'json');
-		if(localStorage.getItem('doIncreaseHitCountRd')==undefined){
-			localStorage.setItem('doIncreaseHitCountRd','doIncreaseHitCountRd');
-		}
+	}
 	
+	function ReactionPoint__getReactionPoint() {
+		
+		$.get('../reactionPoint/getReactionPoint', {
+			id : params.id,
+			relTypeCode : 'article',
+			ajaxMode : 'Y'
+		}, function(data){
+			if(data.data1.sumReactionPoint > 0){
+				let goodBtn = $('#goodBtn'); 
+				goodBtn.removeClass('btn-outline');
+				goodBtn.prop('href', '../reactionPoint/delReactionPoint?id=${article.id}&relTypeCode=article&point=1')
+			}else if(data.data1.sumReactionPoint < 0){
+				let badBtn = $('#badBtn');
+				badBtn.removeClass('btn-outline');
+				badBtn.prop('href', '../reactionPoint/delReactionPoint?id=${article.id}&relTypeCode=article&point=-1')
+			}
+		}, 'json');
 	}
 	
 	$(function(){
 // 		실전코드
 // 		ArticleDetail__increaseHitCount();
+		ReactionPoint__getReactionPoint();
 		
 // 		연습코드
 		setTimeout(ArticleDetail__increaseHitCount, 2000);
 	})
 	
-
 </script>
 
 <section class="mt-8 text-xl">
@@ -59,6 +82,23 @@
 					<tr>
 						<th>작성자</th>
 						<td>${article.writerName}</td>
+					</tr>
+					<tr>
+						<th>추천</th>
+						<td>
+							<c:if test="${rq.getLoginedMemberId() == 0 }">
+								<span class="badge">좋아요 : ${article.goodReactionPoint}개</span>
+								<br />
+								<span class="badge">싫어요 : ${article.badReactionPoint * -1}개</span>
+							</c:if>
+							<c:if test="${rq.getLoginedMemberId() != 0 }">
+								<a id="goodBtn" class="btn btn-xs btn-outline" href="../reactionPoint/doReactionPoint?id=${article.id }&relTypeCode=article&point=1">좋아요 👍</a>
+								<span class="badge">좋아요 : ${article.goodReactionPoint}개</span>
+								<br />
+								<a id="badBtn" class="btn btn-xs btn-outline" href="../reactionPoint/doReactionPoint?id=${article.id }&relTypeCode=article&point=-1">싫어요 👎</a>
+								<span class="badge">싫어요 : ${article.badReactionPoint * -1}개</span>
+							</c:if>
+						</td>
 					</tr>
 					<tr>
 						<th>제목</th>

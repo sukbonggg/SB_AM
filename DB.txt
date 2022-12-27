@@ -118,21 +118,126 @@ UPDATE article
 SET boardId = 2
 WHERE id IN (3);
 
+# article 테이블에 hitCount컬럼 추가
+ALTER TABLE article ADD COLUMN hitCount INT UNSIGNED NOT NULL DEFAULT 0;
+
+# reactionPoint 테이블 생성
+CREATE TABLE reactionPoint (
+	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	regDate DATETIME NOT NULL,
+	updateDate DATETIME NOT NULL,
+	memberId INT UNSIGNED NOT NULL,
+	relTypeCode VARCHAR(20) NOT NULL COMMENT '관련 데이터 타입 코드',
+	relId INT UNSIGNED NOT NULL COMMENT '관련 데이터 번호',
+	`point` SMALLINT NOT NULL
+);
+
+# 2번 회원이 1번 게시물에 싫어요
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+relTypeCode = 'article', 
+relId = 1,
+`point` = -1;
+
+# 2번 회원이 3번 게시물에 싫어요
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+relTypeCode = 'article', 
+relId = 3,
+`point` = -1;
+
+# 2번 회원이 2번 게시물에 좋아요
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+relTypeCode = 'article', 
+relId = 2,
+`point` = 1;
+
+# 3번 회원이 1번 게시물에 좋아요
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 3,
+relTypeCode = 'article', 
+relId = 1,
+`point` = 1;
+
+# 3번 회원이 2번 게시물에 좋아요
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 3,
+relTypeCode = 'article', 
+relId = 2,
+`point` = 1;
+
+
+CREATE TABLE reply (
+	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	regDate DATETIME NOT NULL,
+	updateDate DATETIME NOT NULL,
+	memberId INT UNSIGNED NOT NULL,
+	relTypeCode VARCHAR(20) NOT NULL COMMENT '관련 데이터 타입 코드',
+	relId INT UNSIGNED NOT NULL COMMENT '관련 데이터 번호',
+	`body` TEXT NOT NULL
+);
+
+INSERT INTO reply
+SET regDate = NOW(),
+updateDate=NOW(),
+memberId=2,
+relTypeCode='article',
+relId=1,
+`body`='댓글 1';
+
+INSERT INTO reply
+SET regDate = NOW(),
+updateDate=NOW(),
+memberId=2,
+relTypeCode='article',
+relId=3,
+`body`='댓글 2';
+
+INSERT INTO reply
+SET regDate = NOW(),
+updateDate=NOW(),
+memberId=3,
+relTypeCode='article',
+relId=1,
+`body`='댓글 3';
+
+INSERT INTO reply
+SET regDate = NOW(),
+updateDate=NOW(),
+memberId=3,
+relTypeCode='article',
+relId=1,
+`body`='댓글 4';
+
+
+
 SELECT * FROM article;
 SELECT * FROM `member`;
 SELECT * FROM board;
+SELECT * FROM reactionPoint;
 
 SELECT LAST_INSERT_ID();
 
--- # 게시물 갯수 늘리기
---  INSERT Into article
---  (
--- 	regDate, updateDate, memberId, boardId, title, `body`
---  )
---  select now(), now(), Floor(RAND() * 3) + 1, FLOOR(RAND() * 2) + 1, CONCAt('제목_',RAND()), CONCAT('내용_',RAND())
--- from article
-#article 테이블에 viewCount컬럼 추가
-ALTER TABLE article ADD COLUMN viewCount INT DEFAULT 0 NOT NULL ;
+# 게시물 갯수 늘리기
+/*
+INSERT Into article
+(
+	regDate, updateDate, memberId, boardId, title, `body`
+)
+select now(), now(), Floor(RAND() * 3) + 1, FLOOR(RAND() * 2) + 1, CONCAt('제목_',RAND()), CONCAT('내용_',RAND())
+from article
 
- SELECT COUNT(*)
- FROM article
+select COUNT(*)
+from article
+*/
