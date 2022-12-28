@@ -177,7 +177,7 @@ relTypeCode = 'article',
 relId = 2,
 `point` = 1;
 
-
+# reply 테이블 생성
 CREATE TABLE reply (
 	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	regDate DATETIME NOT NULL,
@@ -190,42 +190,43 @@ CREATE TABLE reply (
 
 INSERT INTO reply
 SET regDate = NOW(),
-updateDate=NOW(),
-memberId=2,
-relTypeCode='article',
-relId=1,
-`body`='댓글 1';
+updateDate = NOW(),
+memberId = 2,
+relTypeCode = 'article',
+relId = 1,
+`body` = '댓글 1';
 
 INSERT INTO reply
 SET regDate = NOW(),
-updateDate=NOW(),
-memberId=2,
-relTypeCode='article',
-relId=3,
-`body`='댓글 2';
+updateDate = NOW(),
+memberId = 2,
+relTypeCode = 'article',
+relId = 3,
+`body` = '댓글 2';
 
 INSERT INTO reply
 SET regDate = NOW(),
-updateDate=NOW(),
-memberId=3,
-relTypeCode='article',
-relId=1,
-`body`='댓글 3';
+updateDate = NOW(),
+memberId = 3,
+relTypeCode = 'article',
+relId = 1,
+`body` = '댓글 3';
 
 INSERT INTO reply
 SET regDate = NOW(),
-updateDate=NOW(),
-memberId=3,
-relTypeCode='article',
-relId=1,
-`body`='댓글 4';
+updateDate = NOW(),
+memberId = 3,
+relTypeCode = 'article',
+relId = 1,
+`body` = '댓글 4';
 
-
+ALTER TABLE `SB_AM_cjh`.`reply` ADD INDEX (`relTypeCode` , `relId`);
 
 SELECT * FROM article;
 SELECT * FROM `member`;
 SELECT * FROM board;
 SELECT * FROM reactionPoint;
+SELECT * FROM reply;
 
 SELECT LAST_INSERT_ID();
 

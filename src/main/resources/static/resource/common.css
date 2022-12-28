@@ -34,3 +34,10 @@ html > body {
 	color: silver;
 	text-decoration: underline;
 }
+.borer-bottm-lint{
+	border-bottm :1px solid #e1e1e1;
+	
+}
+body{
+	min-width: 800px;
+}

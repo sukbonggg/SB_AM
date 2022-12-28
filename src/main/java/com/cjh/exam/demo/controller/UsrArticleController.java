@@ -1,6 +1,5 @@
 package com.cjh.exam.demo.controller;
 
-import java.awt.Window;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +11,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cjh.exam.demo.service.ArticleService;
 import com.cjh.exam.demo.service.BoardService;
+import com.cjh.exam.demo.service.ReplyService;
 import com.cjh.exam.demo.util.Utility;
 import com.cjh.exam.demo.vo.Article;
 import com.cjh.exam.demo.vo.Board;
+import com.cjh.exam.demo.vo.Reply;
 import com.cjh.exam.demo.vo.ResultData;
 import com.cjh.exam.demo.vo.Rq;
 
@@ -23,12 +24,14 @@ public class UsrArticleController {
 
 	private ArticleService articleService;
 	private BoardService boardService;
+	private ReplyService replyService;
 	private Rq rq;
 
 	@Autowired
-	public UsrArticleController(ArticleService articleService, BoardService boardService, Rq rq) {
+	public UsrArticleController(ArticleService articleService, BoardService boardService, ReplyService replyService, Rq rq) {
 		this.articleService = articleService;
 		this.boardService = boardService;
+		this.replyService = replyService;
 		this.rq = rq;
 	}
 
@@ -50,7 +53,7 @@ public class UsrArticleController {
 
 		ResultData<Integer> writeArticleRd = articleService.writeArticle(rq.getLoginedMemberId(), boardId, title, body);
 
-		int id = (int) writeArticleRd.getData1();
+		int id = writeArticleRd.getData1();
 
 		return Utility.jsReplace(Utility.f("%d번 글이 생성되었습니다", id), Utility.f("detail?id=%d", id));
 	}
@@ -146,9 +149,11 @@ public class UsrArticleController {
 	public String ShowDetail(Model model, int id) {
 
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
-		
+
+		List<Reply> replies = replyService.getForPrintReplies("article", id);
 		
 		model.addAttribute("article", article);
+		model.addAttribute("replies", replies);
 
 		return "usr/article/detail";
 	}
@@ -156,14 +161,13 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doIncreaseHitCountRd")
 	@ResponseBody
 	public ResultData<Integer> doIncreaseHitCountRd(int id) {
-		
-		
+
 		ResultData<Integer> increaseHitCountRd = articleService.increaseHitCount(id);
 
 		if (increaseHitCountRd.isFail()) {
 			return increaseHitCountRd;
 		}
-		
+
 		ResultData<Integer> rd = ResultData.from(increaseHitCountRd.getResultCode(), increaseHitCountRd.getMsg(),
 				"hitCount", articleService.getArticleHitCount(id));
 

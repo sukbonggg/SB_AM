@@ -45,17 +45,17 @@
 	
 	$(function(){
 // 		실전코드
-// 		ArticleDetail__increaseHitCount();
+		ArticleDetail__increaseHitCount();
 		ReactionPoint__getReactionPoint();
 		
 // 		연습코드
-		setTimeout(ArticleDetail__increaseHitCount, 2000);
+// 		setTimeout(ArticleDetail__increaseHitCount, 2000);
 	})
 	
 </script>
 
 <section class="mt-8 text-xl">
-	<div class="container mx-auto px-3">
+	<div class="container mx-auto px-3 pb-5 border-bottom-line">
 		<div class="table-box-type-1">
 			<table>
 				<colgroup>
@@ -120,4 +120,46 @@
 		</div>
 	</div>
 </section>
+
+<script>
+	function ReplyWrite__submitForm(form) {
+		
+		form.body.value = form.body.value.trim();
+		
+		if(form.body.value.length < 2) {
+			alert('2글자 이상 입력해주세요');
+			form.body.focus();
+			return;
+		}
+		
+		form.submit();
+	}
+</script>
+
+<section class="mt-5 text-xl">
+	<div class="container mx-auto px-3">
+		<h2>댓글<span class="text-base">(${replies.size() }개)</span></h2>
+
+		<c:forEach var="reply" items="${replies}">
+			<div class="py-2 pl-16 border-bottom-line text-base">
+				<div class="font-semibold"><span>${reply.writerName }</span></div>
+				<div><span>${reply.body }</span></div>
+				<div class="text-sm text-gray-400"><span>${reply.updateDate }</span></div>
+			</div>
+		</c:forEach>
+		
+		<c:if test="${rq.getLoginedMemberId() != 0 }">
+			<form action="../reply/doWrite" method="POST" onsubmit="ReplyWrite__submitForm(this); return false;">
+				<input type="hidden" name="relTypeCode" value="article" />
+				<input type="hidden" name="relId" value="${article.id }" />
+				<div class="mt-4 p-4 rounded-lg border border-gray-400 text-base">
+					<div class="mb-2"><span>현재 로그인한 회원 닉네임</span></div>
+					<textarea class="textarea textarea-bordered w-full" name="body" rows="2" placeholder="댓글을 남겨보세요"></textarea>
+					<div class="flex justify-end"><button class="btn btn-active btn-ghost btn-sm">등록</button></div>
+				</div>
+			</form>
+		</c:if>
+	</div>
+</section>
+
 <%@ include file="../common/foot.jsp"%>
